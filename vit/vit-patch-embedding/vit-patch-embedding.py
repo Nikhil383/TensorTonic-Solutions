@@ -2,39 +2,80 @@ import numpy as np
 
 def patch_embed(image: np.ndarray, patch_size: int, embed_dim: int, W_proj: np.ndarray = None) -> np.ndarray:
     """
-    Convert image to patch embeddings.
-    W_proj: projection matrix of shape (patch_dim, embed_dim). If None, initialize randomly.
+    Convert image(s) to patch embeddings.
+
+    Parameters
+    ----------
+    image : np.ndarray
+        Shape (H, W, C) for a single image or
+        Shape (B, H, W, C) for a batch of images.
+    patch_size : int
+        Size of each square patch.
+    embed_dim : int
+        Dimension of output embedding.
+    W_proj : np.ndarray, optional
+        Projection matrix of shape (patch_dim, embed_dim).
+        If None, initialized randomly.
+
+    Returns
+    -------
+    np.ndarray
+        Shape (num_patches, embed_dim) for a single image or
+        Shape (B, num_patches, embed_dim) for a batch.
     """
-    # YOUR CODE HERE
-    B, H, W, C = image.shape
 
-    assert H % patch_size == 0
-    assert W % patch_size == 0
+    # ---------- Single Image ----------
+    if image.ndim == 3:
+        H, W, C = image.shape
 
-    N = (H // patch_size) * (W // patch_size)
-    patch_dim = patch_size * patch_size * C
+        assert H % patch_size == 0, "Height must be divisible by patch_size"
+        assert W % patch_size == 0, "Width must be divisible by patch_size"
 
-    # Separate patch grid from pixels inside patches
-    patches = image.reshape(
-        B,
-        H // patch_size,
-        patch_size,
-        W // patch_size,
-        patch_size,
-        C
-    )
+        patch_dim = patch_size * patch_size * C
 
-    # Bring patch-grid dimensions together
-    patches = patches.transpose(0, 1, 3, 2, 4, 5)
+        if W_proj is None:
+            W_proj = np.random.randn(patch_dim, embed_dim)
 
-    # Flatten each patch
-    patches = patches.reshape(B, N, patch_dim)
+        embeddings = []
 
-    # Projection matrix
-    if W_proj is None:
-        W_proj = np.random.randn(patch_dim, embed_dim)
+        for i in range(0, H, patch_size):
+            for j in range(0, W, patch_size):
+                patch = image[i:i+patch_size, j:j+patch_size, :]
+                patch = patch.reshape(-1)           # Flatten
+                embedding = patch @ W_proj          # Linear projection
+                embeddings.append(embedding)
 
-    # Linear projection
-    embeddings = patches @ W_proj
+        return np.array(embeddings)
 
-    return embeddings
+    # ---------- Batch of Images ----------
+    elif image.ndim == 4:
+        B, H, W, C = image.shape
+
+        assert H % patch_size == 0, "Height must be divisible by patch_size"
+        assert W % patch_size == 0, "Width must be divisible by patch_size"
+
+        patch_dim = patch_size * patch_size * C
+
+        if W_proj is None:
+            W_proj = np.random.randn(patch_dim, embed_dim)
+
+        batch_embeddings = []
+
+        for b in range(B):
+            embeddings = []
+
+            for i in range(0, H, patch_size):
+                for j in range(0, W, patch_size):
+                    patch = image[b, i:i+patch_size, j:j+patch_size, :]
+                    patch = patch.reshape(-1)
+                    embedding = patch @ W_proj
+                    embeddings.append(embedding)
+
+            batch_embeddings.append(embeddings)
+
+        return np.array(batch_embeddings)
+
+    else:
+        raise ValueError(
+            "Input image must have shape (H, W, C) or (B, H, W, C)"
+        )
