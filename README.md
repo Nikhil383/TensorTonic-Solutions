@@ -138,6 +138,7 @@ Verified machine learning implementations completed on [TensorTonic](https://www
 | Morphological Erosion and Dilation | Apply binary-image erosion and dilation with a structuring element and explicit neighborhood boundaries. | https://www.tensortonic.com/problems/morphological-operations |
 | Moving Median | Compute a moving median over complete fixed-size sliding windows in an ordered numeric time series. | https://www.tensortonic.com/problems/moving-median |
 | Implement Nadam (Nesterov + Adam) | Implement one Nadam optimizer step in NumPy by combining Adam moments with Nesterov momentum. | https://www.tensortonic.com/problems/nadam-optimizer |
+| Naive Bayes Log-Likelihood (Bernoulli) | Compute Bernoulli Naive Bayes log-likelihoods from binary features, class priors, and feature probabilities. | https://www.tensortonic.com/problems/naive-bayes-bernoulli |
 | NDCG (Normalized Discounted Cumulative Gain) | Calculate normalized discounted cumulative gain at K from ranked relevance scores and their ideal ordering. | https://www.tensortonic.com/problems/ndcg |
 | Implement Nesterov Momentum (NAG) | Implement a Nesterov accelerated-gradient update using lookahead momentum and the current gradient. | https://www.tensortonic.com/problems/nesterov-momentum |
 | Non-Maximum Suppression | Apply non-maximum suppression to scored bounding boxes using intersection over union and a threshold. | https://www.tensortonic.com/problems/non-maximum-suppression |
