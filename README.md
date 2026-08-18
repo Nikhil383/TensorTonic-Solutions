@@ -218,6 +218,7 @@ Verified machine learning implementations completed on [TensorTonic](https://www
 | Xavier Initialization | Scale raw weights into the Xavier uniform range using a bound derived from fan-in and fan-out. | https://www.tensortonic.com/problems/xavier-initialization |
 | Implement z-Score Standardization | Standardize NumPy features to zero mean and unit variance with explicit handling for constant columns. | https://www.tensortonic.com/problems/zscore-standardization |
 | Channel Growth and Compression | Compute DenseNet channel growth across dense blocks and transition compression from the initial channels and growth rate. | https://www.tensortonic.com/research/densenet/densenet-channels |
+| Block Attention Residuals | Implement Kimi K3 block attention residuals with block-local history, learned mixing weights, and normalized outputs. | https://www.tensortonic.com/research/kimik3/k3-block-attnres |
 | Full Attention Residuals | Implement Kimi K3 full attention residuals by mixing normalized layer outputs with learned residual coefficients. | https://www.tensortonic.com/research/kimik3/k3-full-attnres |
 | Gated MLA | Build Kimi K3 Gated MLA with low-rank query and KV projections, per-head gating, RoPE inputs, and latent caching. | https://www.tensortonic.com/research/kimik3/k3-gated-mla |
 | KDA Recurrence | Implement Kimi K3's KDA recurrence with gated state updates, normalized queries and keys, and ordered token readouts. | https://www.tensortonic.com/research/kimik3/k3-kda-recurrence |
